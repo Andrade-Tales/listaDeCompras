@@ -1,6 +1,7 @@
 package com.lista.compras.dao
 
 import com.lista.compras.model.Produto
+import java.math.BigDecimal
 
 
 // Data Access Object = DAO
@@ -17,7 +18,13 @@ class ProdutosDao {
     }
 
     companion object {
-        private val produtos = mutableListOf<Produto>()
+        private val produtos = mutableListOf<Produto>(
+            Produto(
+                nome = "Salada de frutas",
+                descricao = "Laranja, maçãs e uva",
+                valor = BigDecimal("19.83")
+            )
+        )
     }
 
 }

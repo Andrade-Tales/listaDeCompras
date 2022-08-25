@@ -6,10 +6,15 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.lista.compras.R
 import com.lista.compras.dao.ProdutosDao
+import com.lista.compras.databinding.ActivityFormularioProdutoBinding
 import com.lista.compras.model.Produto
 import java.math.BigDecimal
 
 class FormularioProdutoActivity : AppCompatActivity(R.layout.activity_formulario_produto) {
+
+    private val binding by lazy {
+        ActivityFormularioProdutoBinding.inflate(layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
