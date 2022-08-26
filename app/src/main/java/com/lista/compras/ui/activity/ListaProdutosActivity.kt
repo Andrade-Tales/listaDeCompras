@@ -1,11 +1,8 @@
 package com.lista.compras.ui.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.lista.compras.R
+import androidx.appcompat.app.AppCompatActivity
 import com.lista.compras.dao.ProdutosDao
 import com.lista.compras.databinding.ActivityListaProdutosActivityBinding
 import com.lista.compras.recyclerview.adapter.ListaProdutosAdapter
