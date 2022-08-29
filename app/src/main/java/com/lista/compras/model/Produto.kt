@@ -1,10 +1,12 @@
 package com.lista.compras.model
 
 import android.os.Parcelable
+import androidx.room.Entity
 import kotlinx.parcelize.Parcelize
 import java.math.BigDecimal
 
-// Implementação do Parcelable com o plugin parcelize
+// Implementação do Parcelable com o plugin parcelize e o plugin Entity de persistência;
+@Entity
 @Parcelize
 data class Produto(
     val nome: String,
