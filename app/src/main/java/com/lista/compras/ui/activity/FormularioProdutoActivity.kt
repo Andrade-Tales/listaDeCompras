@@ -1,19 +1,15 @@
 package com.lista.compras.ui.activity
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import coil.load
-import com.lista.compras.R
 import com.lista.compras.dao.ProdutosDao
 import com.lista.compras.databinding.ActivityFormularioProdutoBinding
-import com.lista.compras.databinding.FormularioImagemBinding
+import com.lista.compras.extensions.tentaCarregarImagem
 import com.lista.compras.model.Produto
+import com.lista.compras.ui.dialog.FormularioImagemDialog
 import java.math.BigDecimal
 
-class FormularioProdutoActivity : AppCompatActivity(R.layout.activity_formulario_produto) {
+class FormularioProdutoActivity : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityFormularioProdutoBinding.inflate(layoutInflater)
@@ -24,23 +20,14 @@ class FormularioProdutoActivity : AppCompatActivity(R.layout.activity_formulario
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        title = "Cadastrar produto"
         configuraBotaoSalvar()
         binding.activityFormularioProdutoImagem.setOnClickListener {
-            // Caixa de diálogo: com chamadas encadeadas
-            val bindingFormularioImagem = FormularioImagemBinding.inflate(layoutInflater)
-            bindingFormularioImagem.formularioImagemBotaoCarregar.setOnClickListener {
-                val url = bindingFormularioImagem.formularioImagemUrl.text.toString()
-                bindingFormularioImagem.formularioImagemImageview.load(url)
-            }
-
-            AlertDialog.Builder(this)
-                .setView(bindingFormularioImagem.root)
-                .setPositiveButton("Confirmar") { _, _ ->
-                    url = bindingFormularioImagem.formularioImagemUrl.text.toString()
-                    binding.activityFormularioProdutoImagem.load(url)
+            FormularioImagemDialog(this)
+                .mostra(url) { imagem ->
+                    url = imagem
+                    binding.activityFormularioProdutoImagem.tentaCarregarImagem(url)
                 }
-                .setNegativeButton("Cancelar") { _, _ -> }
-                .show()
         }
     }
 
