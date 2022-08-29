@@ -1,4 +1,4 @@
-# listaDeCompras
+# Lista de compras.
 Android com Kotlin: Crie seu primeiro app
 
 ✔️ Técnicas e tecnologias utilizadas
