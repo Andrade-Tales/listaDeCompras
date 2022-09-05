@@ -8,12 +8,10 @@ import com.lista.compras.extensions.tentaCarregarImagem
 
 class FormularioImagemDialog(private val context: Context) {
 
-    //  HIGH-ORDER-FUNCTION
     fun mostra(
         urlPadrao: String? = null,
         quandoImagemCarragada: (imagem: String) -> Unit
     ) {
-        // Caixa de diálogo: com chamadas encadeadas
         FormularioImagemBinding
             .inflate(LayoutInflater.from(context)).apply {
 
@@ -38,5 +36,8 @@ class FormularioImagemDialog(private val context: Context) {
                     }
                     .show()
             }
+
+
     }
+
 }

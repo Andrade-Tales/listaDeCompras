@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/andra/Developer/listaDeCompras/app/src/main/res/drawable-v24/ic_baseline_add_24.xml" value="0.147" />
         <entry key="..\:/Users/andra/Developer/listaDeCompras/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.147" />
+        <entry key="..\:/Users/andra/Developer/listaDeCompras/app/src/main/res/drawable/ic_action_editar.xml" value="0.147" />
         <entry key="..\:/Users/andra/Developer/listaDeCompras/app/src/main/res/drawable/ic_launcher_background.xml" value="0.147" />
         <entry key="..\:/Users/andra/Developer/listaDeCompras/app/src/main/res/drawable/placeholder.xml" value="0.147" />
         <entry key="..\:/Users/andra/Developer/listaDeCompras/app/src/main/res/drawable/plano_de_fundo_arredondado.xml" value="0.147" />
@@ -16,6 +17,7 @@
         <entry key="..\:/Users/andra/Developer/listaDeCompras/app/src/main/res/layout/activity_lista_produtos_activity.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/andra/Developer/listaDeCompras/app/src/main/res/layout/formulario_imagem.xml" value="0.203125" />
         <entry key="..\:/Users/andra/Developer/listaDeCompras/app/src/main/res/layout/produto_item.xml" value="0.33" />
+        <entry key="..\:/Users/andra/Developer/listaDeCompras/app/src/main/res/menu/menu_detalhes_produto.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>

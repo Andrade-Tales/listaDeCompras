@@ -14,4 +14,5 @@ class Converters {
     fun bigDecimalParaDouble(valor: BigDecimal?): Double? {
         return valor?.let { valor.toDouble() }
     }
+
 }

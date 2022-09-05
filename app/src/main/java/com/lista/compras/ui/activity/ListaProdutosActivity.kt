@@ -5,11 +5,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.lista.compras.database.AppDatabase
 import com.lista.compras.databinding.ActivityListaProdutosActivityBinding
-import com.lista.compras.recyclerview.adapter.ListaProdutosAdapter
+import com.lista.compras.ui.recyclerview.adapter.ListaProdutosAdapter
 
 class ListaProdutosActivity : AppCompatActivity() {
 
-    private val adapter = ListaProdutosAdapter(context = this, emptyList())
+    private val adapter = ListaProdutosAdapter(context = this)
     private val binding by lazy {
         ActivityListaProdutosActivityBinding.inflate(layoutInflater)
     }
@@ -28,34 +28,27 @@ class ListaProdutosActivity : AppCompatActivity() {
         adapter.atualiza(produtoDao.buscaTodos())
     }
 
-    // Extração de método
     private fun configuraFab() {
-        // Inicializando Activity e fazendo a ação do botão...
         val fab = binding.activityListaProdutosFab
         fab.setOnClickListener {
             vaiParaFormularioProduto()
         }
     }
 
-    // Extração de método
     private fun vaiParaFormularioProduto() {
         val intent = Intent(this, FormularioProdutoActivity::class.java)
         startActivity(intent)
     }
 
-    // Extração de método
     private fun configuraRecyclerView() {
         val recyclerView = binding.activityListaProdutosRecyclerView
         recyclerView.adapter = adapter
-        // Implementação do listener para abrir a Activity de detalhes do produto
-        // com o produto clicado
         adapter.quandoClicaNoItem = {
             val intent = Intent(
                 this,
                 DetalhesProdutoActivity::class.java
             ).apply {
-                // envio do produto por meio do extra
-                putExtra(CHAVE_PRODUTO, it)
+                putExtra(CHAVE_PRODUTO_ID, it.id)
             }
             startActivity(intent)
         }

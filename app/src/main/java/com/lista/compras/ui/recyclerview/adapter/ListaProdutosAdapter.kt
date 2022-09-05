@@ -1,4 +1,4 @@
-package com.lista.compras.recyclerview.adapter
+package com.lista.compras.ui.recyclerview.adapter
 
 
 import android.content.Context
@@ -14,26 +14,18 @@ import com.lista.compras.model.Produto
 class ListaProdutosAdapter(
     private val context: Context,
     produtos: List<Produto> = emptyList(),
-    // Declaração da função para o listener do adapter
     var quandoClicaNoItem: (produto: Produto) -> Unit = {}
 ) : RecyclerView.Adapter<ListaProdutosAdapter.ViewHolder>() {
 
     private val produtos = produtos.toMutableList()
 
-    // Utilização do inner na classe interna para acessar membros da classe superior
-    // nesse caso, a utilização da variável quandoClicaNoItem
     inner class ViewHolder(private val binding: ProdutoItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        // Considerando que o ViewHolder modifica de valor com base na posição
-        // é necessário o uso de properties mutáveis, para evitar nullables
-        // utilizamos o lateinit, properties que podem ser inicializar depois
         private lateinit var produto: Produto
 
         init {
-            // Implementação do listener do adapter
             itemView.setOnClickListener {
-                // Verificação da existência de valores em property lateinit
                 if (::produto.isInitialized) {
                     quandoClicaNoItem(produto)
                 }
@@ -61,6 +53,7 @@ class ListaProdutosAdapter(
 
             binding.imageView.tentaCarregarImagem(produto.imagem)
         }
+
 
     }
 
