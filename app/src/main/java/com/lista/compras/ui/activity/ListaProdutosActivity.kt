@@ -3,9 +3,12 @@ package com.lista.compras.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.lista.compras.database.AppDatabase
 import com.lista.compras.databinding.ActivityListaProdutosActivityBinding
 import com.lista.compras.ui.recyclerview.adapter.ListaProdutosAdapter
+import kotlinx.coroutines.launch
+
 
 class ListaProdutosActivity : AppCompatActivity() {
 
@@ -13,19 +16,21 @@ class ListaProdutosActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityListaProdutosActivityBinding.inflate(layoutInflater)
     }
+    private val dao by lazy {
+        val db = AppDatabase.instancia(this)
+        db.produtoDao()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         configuraRecyclerView()
         configuraFab()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val db = AppDatabase.instancia(this)
-        val produtoDao = db.produtoDao()
-        adapter.atualiza(produtoDao.buscaTodos())
+        lifecycleScope.launch {
+            dao.buscaTodos().collect { produtos ->
+                adapter.atualiza(produtos)
+            }
+        }
     }
 
     private fun configuraFab() {
