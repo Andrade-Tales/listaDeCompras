@@ -1,6 +1,7 @@
 package com.lista.compras.ui.activity
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.lista.compras.database.AppDatabase
@@ -8,6 +9,8 @@ import com.lista.compras.database.dao.ProdutoDao
 import com.lista.compras.databinding.ActivityFormularioProdutoBinding
 import com.lista.compras.extensions.tentaCarregarImagem
 import com.lista.compras.model.Produto
+import com.lista.compras.preferences.dataStore
+import com.lista.compras.preferences.usuarioLogadoPreferences
 import com.lista.compras.ui.dialog.FormularioImagemDialog
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
@@ -25,6 +28,10 @@ class FormularioProdutoActivity : AppCompatActivity() {
         db.produtoDao()
     }
 
+    private val usuarioDao by lazy {
+        AppDatabase.instancia(this).usuarioDao()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -38,7 +45,15 @@ class FormularioProdutoActivity : AppCompatActivity() {
                 }
         }
         tentaCarregarProduto()
-        tentaBuscarProduto()
+        lifecycleScope.launch {
+            dataStore.data.collect { preferences ->
+                preferences[usuarioLogadoPreferences]?.let { usuarioId ->
+                    usuarioDao.buscaPorId(usuarioId).collect {
+                        Log.i("FormularioProduto", "onCreate: $it")
+                    }
+                }
+            }
+        }
     }
 
     private fun tentaCarregarProduto() {
