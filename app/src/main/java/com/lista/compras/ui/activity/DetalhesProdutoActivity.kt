@@ -14,7 +14,6 @@ import com.lista.compras.extensions.tentaCarregarImagem
 import com.lista.compras.model.Produto
 import kotlinx.coroutines.launch
 
-
 class DetalhesProdutoActivity : AppCompatActivity() {
 
     private var produtoId: Long = 0L
@@ -30,6 +29,10 @@ class DetalhesProdutoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         tentaCarregarProduto()
+    }
+
+    override fun onResume() {
+        super.onResume()
         buscaProduto()
     }
 
@@ -46,16 +49,19 @@ class DetalhesProdutoActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_detalhes_produto, menu)
-        return menu.let { super.onCreateOptionsMenu(it) }
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_detalhes_produto_remover -> {
-                lifecycleScope.launch {
-                    produto?.let { produtoDao.remove(it) }
-                    finish()
+                produto?.let {
+                    lifecycleScope.launch {
+                        produtoDao.remove(it)
+                        finish()
+                    }
                 }
+
             }
             R.id.menu_detalhes_produto_editar -> {
                 Intent(this, FormularioProdutoActivity::class.java).apply {
