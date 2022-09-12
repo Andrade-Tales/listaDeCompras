@@ -2,23 +2,18 @@ package com.lista.compras.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
-import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.lifecycleScope
 import com.lista.compras.R
 import com.lista.compras.database.AppDatabase
 import com.lista.compras.databinding.ActivityListaProdutosActivityBinding
-import com.lista.compras.extensions.vaiPara
-import com.lista.compras.preferences.dataStore
-import com.lista.compras.preferences.usuarioLogadoPreferences
 import com.lista.compras.ui.recyclerview.adapter.ListaProdutosAdapter
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 
-class ListaProdutosActivity : AppCompatActivity() {
+class ListaProdutosActivity : UsuarioBaseActivity() {
 
     private val adapter = ListaProdutosAdapter(context = this)
     private val binding by lazy {
@@ -29,9 +24,6 @@ class ListaProdutosActivity : AppCompatActivity() {
         db.produtoDao()
     }
 
-    private val usuarioDao by lazy {
-        AppDatabase.instancia(this).usuarioDao()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,48 +32,35 @@ class ListaProdutosActivity : AppCompatActivity() {
         configuraFab()
         lifecycleScope.launch {
             launch {
-                produtoDao.buscaTodos().collect { produtos ->
-                    adapter.atualiza(produtos)
-                }
+                usuario
+                    .filterNotNull()
+                    .collect { usuario ->
+                        buscaProdutosUsuario(usuario.id)
+                    }
             }
-
-            launch {
-                dataStore.data.collect { preferences ->
-                    preferences[usuarioLogadoPreferences]?.let { usuarioId ->
-                        launch {
-                            usuarioDao.buscaPorId(usuarioId).collect {
-                                Log.i("ListaProdutos", "onCreate: $it")
-
-                            }
-                        }
-                    } ?: vaiParaLogin()
-                }
-            }
-
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_lista_produtos, menu)
-        return super.onCreateOptionsMenu(menu)
+        return menu.let { super.onCreateOptionsMenu(it) }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_lista_produtos_sair_do_app -> {
                 lifecycleScope.launch {
-                    dataStore.edit { preferences ->
-                        preferences.remove(usuarioLogadoPreferences)
-                    }
+                    deslogaUsuario()
                 }
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun vaiParaLogin() {
-        vaiPara(LoginActivity::class.java)
-        finish()
+    private suspend fun buscaProdutosUsuario(usuarioId: String) {
+        produtoDao.buscaTodosDoUsuario(usuarioId).collect { produtos ->
+            adapter.atualiza(produtos)
+        }
     }
 
     private fun configuraFab() {

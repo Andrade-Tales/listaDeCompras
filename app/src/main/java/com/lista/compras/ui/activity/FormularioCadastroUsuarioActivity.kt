@@ -2,13 +2,12 @@ package com.lista.compras.ui.activity
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.lista.compras.database.AppDatabase
 import com.lista.compras.databinding.ActivityFormularioCadastroUsuarioBinding
+import com.lista.compras.extensions.toast
 import com.lista.compras.model.Usuario
-import com.lista.compras.database.dao.UsuarioDao
 import kotlinx.coroutines.launch
 
 class FormularioCadastroUsuarioActivity : AppCompatActivity() {
@@ -29,19 +28,18 @@ class FormularioCadastroUsuarioActivity : AppCompatActivity() {
     private fun configuraBotaoCadastrar() {
         binding.activityFormularioCadastroBotaoCadastrar.setOnClickListener {
             val novoUsuario = criaUsuario()
-            Log.i("CadastroUsuario", "onCreate: $novoUsuario")
-            lifecycleScope.launch {
-                try {
-                    dao.salva(novoUsuario)
-                    finish()
-                } catch (e: Exception) {
-                    Log.e("CadastroUsuario", "configuraBotaoCadastrar: ", e)
-                    Toast.makeText(
-                        this@FormularioCadastroUsuarioActivity,
-                        "Falha ao cadastrar usuário",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+            cadastra(novoUsuario)
+        }
+    }
+
+    private fun cadastra(usuario: Usuario) {
+        lifecycleScope.launch {
+            try {
+                dao.salva(usuario)
+                finish()
+            } catch (e: Exception) {
+                Log.e("CadastroUsuario", "configuraBotaoCadastrar: ", e)
+                toast("Falha ao cadastrar usuário")
             }
         }
     }

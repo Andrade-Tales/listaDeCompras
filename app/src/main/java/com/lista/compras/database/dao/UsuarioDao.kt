@@ -13,18 +13,16 @@ interface UsuarioDao {
     @Insert
     suspend fun salva(usuario: Usuario)
 
-    @Query(
-        """
+    @Query("""
         SELECT * FROM Usuario 
         WHERE id = :usuarioId 
-        AND senha = :senha"""
-    )
-
+        AND senha = :senha""")
     suspend fun autentica(
         usuarioId: String,
-        senha: String,
+        senha: String
     ): Usuario?
 
     @Query("SELECT * FROM Usuario WHERE id = :usuarioId")
     fun buscaPorId(usuarioId: String): Flow<Usuario>
+
 }
