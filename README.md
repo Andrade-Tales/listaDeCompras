@@ -1,9 +1,7 @@
 # Lista de compras.
 Android com Kotlin: Crie seu primeiro app
 
-✔️ Técnicas e tecnologias utilizadas
-
-As técnicas e tecnologias utilizadas pra isso são:
+✔️ Técnicas e tecnologias utilizadas:
 
 CardView: container para apresentar cada produto na lista de produtos
 
